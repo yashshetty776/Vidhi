@@ -9,9 +9,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Cases from './pages/Cases';
 import CreateCase from './pages/CreateCase';
 import Lawyer from './pages/Lawyer';
+import Profile from './pages/Profile';
+import NewsFeed from './components/NewsFeed';
+import Nyaya from './components/Nyayadut';
+import Notification from './pages/Notification';
 
 function App() {
   return (
+    <div>
+    <Nyaya/>
     <Routes>
       {/* Public Routes (No Navbar) */}
       <Route path="/cases" element={<Cases />} />
@@ -19,6 +25,9 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/create-case" element={<CreateCase />} />
       <Route path="/lawyers" element={<Lawyer />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/news" element={<NewsFeed />} />
+      <Route path="/notification" element={<Notification />} />
       
       {/* Protected Routes (With Navbar) */}
       <Route 
@@ -34,6 +43,7 @@ function App() {
         } 
       />
     </Routes>
+  </div>
   );
 }
 

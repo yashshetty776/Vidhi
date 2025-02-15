@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
 import { Menu as MenuIcon, Adb as AdbIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import jwtDecode from "jwt-decode";
 
-const settings = ['Profile', 'Logout'];
+const settings = ['Profile', 'Notification','Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -24,21 +25,11 @@ function ResponsiveAppBar() {
   }, []);
 
   const pages = [
-    { name: 'Report', path: '/report' },
-    { name: 'Organizations', path: '/organizations' },
+    { name: 'Home', path: '/home' },
     { name: 'Cases', path: '/cases' },
+    { name: 'News', path: '/news' },
   ];
 
-
-
-
-
-
-
-
-
-
-  
   if (role !== "lawyer") {
     pages.unshift({ name: 'Lawyers', path: '/lawyers' });
   }
@@ -57,6 +48,19 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleUserMenuClick = (setting) => {
+    if (setting === 'Logout') {
+      localStorage.removeItem("token");
+      navigate("/");
+    } else if (setting === 'Profile') {
+      navigate("/profile");
+    }
+    else if (setting === 'Notification') {
+      navigate("/notification");
+    }
+    handleCloseUserMenu();
   };
 
   return (
@@ -114,7 +118,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User Avatar" src="" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -124,7 +128,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleUserMenuClick(setting)}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
               ))}

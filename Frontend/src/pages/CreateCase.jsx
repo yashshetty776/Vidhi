@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, TextField, Button, Typography, Alert, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const CreateCase = () => {
   const [caseData, setCaseData] = useState({
@@ -52,8 +53,11 @@ const CreateCase = () => {
   };
 
   return (
+    <div>
+      <Navbar/>
+    <div>
     <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ marginTop:10 }}>
         Create a New Case
       </Typography>
 
@@ -105,6 +109,8 @@ const CreateCase = () => {
         </Button>
       </form>
     </Container>
+    </div>
+    </div>
   );
 };
 

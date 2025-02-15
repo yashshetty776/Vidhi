@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Typography, Card, CardContent, Grid, Avatar, Box } from "@mui/material";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import Navbar from "../components/Navbar";
 
 const Lawyers = () => {
   const [lawyers, setLawyers] = useState([]);
@@ -36,8 +37,12 @@ const Lawyers = () => {
   };
 
   return (
+    <div>
+      
+        <Navbar />
+      <div>
     <Container sx={{ py: 5 }}>
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center" }}>
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", textAlign: "center",marginTop: 5 }}>
         Available Lawyers
       </Typography>
 
@@ -69,9 +74,9 @@ const Lawyers = () => {
                     <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center" }}>
                       {lawyer.full_name || "Unknown Name"}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary">
+                    {/* <Typography variant="body2" color="textSecondary">
                       {lawyer.email || "No email available"}
-                    </Typography>
+                    </Typography> */}
                     <Box sx={{ mt: 1, textAlign: "center" }}>
                       <Typography variant="body2" sx={{ fontWeight: "bold" }}>
                         Experience:{" "}
@@ -100,6 +105,9 @@ const Lawyers = () => {
         </Typography>
       )}
     </Container>
+    </div>
+    </div>
+    
   );
 };
 
