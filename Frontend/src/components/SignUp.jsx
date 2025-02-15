@@ -158,7 +158,7 @@ const SignUp = () => {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               >
-                <MenuItem value="user">client</MenuItem>
+                <MenuItem value="client">client</MenuItem>
                 <MenuItem value="lawyer">lawyer</MenuItem>
               </TextField>
               {role === 'lawyer' && (

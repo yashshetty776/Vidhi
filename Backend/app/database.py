@@ -1,10 +1,13 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from beanie import init_beanie
+from beanie import init_beanie 
 from models.user import User
+from models.case import Case
+# from models.message import Message 
+from models.notification import Notification
 
-MONGO_URI = "mongodb+srv://yashshetty776:yash@yashu143.o89m6eb.mongodb.net/?retryWrites=true&w=majority&appName=yashu143"
+MONGO_URI = "mongodb+srv://AnanyaGowda:1Advikaa@cluster0.ygqxz6p.mongodb.net/"
 
 async def init_db():
     client = AsyncIOMotorClient(MONGO_URI)
     database = client.get_database("Legal")  # Explicitly use the "main" database
-    await init_beanie(database, document_models=[User])  # Register user model
+    await init_beanie(database, document_models=[User, Case, Notification])  # Register user model
