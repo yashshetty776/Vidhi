@@ -150,7 +150,7 @@ const NewsFeed = () => {
                                             mb: 2,
                                             transition: 'color 0.3s ease',
                                             '&:hover': {
-                                                color: '#ffff'
+                                                color: '#006994'
                                             }
                                         }}
                                     >

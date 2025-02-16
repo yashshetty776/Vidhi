@@ -5,7 +5,7 @@ from models.case import Case
 # from models.message import Message 
 from models.notification import Notification
 
-MONGO_URI = "mongodb+srv://AnanyaGowda:1Advikaa@cluster0.ygqxz6p.mongodb.net/"
+MONGO_URI = "MONGO_URL"
 
 async def init_db():
     client = AsyncIOMotorClient(MONGO_URI)
