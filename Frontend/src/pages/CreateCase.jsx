@@ -16,6 +16,11 @@ const CreateCase = () => {
 
   // ✅ Predefined case categories
   const categories = [
+    "Education",
+    "Real Estate",
+    "Personal Injury",
+    "Criminal",
+    "Traffic",
     "Contract Disputes",
     "Property Disputes",
     "Consumer Complaints",
@@ -26,6 +31,7 @@ const CreateCase = () => {
     "Medical Malpractice",
     "Land Disputes",
     "Business Contracts",
+
   ];
 
   // ✅ Handle input change

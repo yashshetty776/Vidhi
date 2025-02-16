@@ -1,91 +1,372 @@
 import React from 'react';
-import { Container, Box, Typography, Paper, CardMedia, IconButton } from '@mui/material';
+import { Container, Box, Typography, Paper, CardMedia, IconButton, Grid, Link } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { keyframes } from '@mui/system';
 
 const Home = () => {
-    // Hardcoded news data with images
+    // Define animations
+    const fadeIn = keyframes`
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    `;
+
+    const slideIn = keyframes`
+        from { transform: translateX(-100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    `;
+
     const news = [
         {
             title: 'Legal Rights Awareness',
             description: 'Learn about your legal rights and how to protect them.',
-            imageUrl: 'https://static-bestcolleges.tosshub.com/2024/News/XowH0khykHQkMndHLS1uHYx6CkRNfYBkcBG5R0XT.jpg'
+            imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
         },
         {
             title: 'Court Proceedings Simplified',
             description: 'Understand the process of court hearings and legal procedures.',
-            imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2upBu-ne_g4cVybU5M-LnnkF48q3oSrxCQA&s'
+            imageUrl: 'https://www.legid.app/wp-content/uploads/online-education-3412473_1920.jpg'
         },
         {
             title: 'Empowering Justice',
             description: 'Providing equal access to justice for all communities.',
-            imageUrl: 'data:image/png;base64,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'
+            imageUrl: 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
         }
     ];
 
+    const marquee = keyframes`
+    0% { transform: translateX(-100%); } // Start off-screen left
+    100% { transform: translateX(100%); } // Move off-screen right
+`;
+
     return (
-        <Container sx={{ minHeight: 'calc(100vh - 64px - 64px)', pt: 2 }}> 
-            {/* Hero Section */}
-            <Box 
-                sx={{ 
-                    textAlign: 'center', 
-                    mt: 10, 
-                    backgroundImage: 'url(https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?auto=format&fit=crop&w=1500&q=80)', 
-                    backgroundSize: 'cover', 
-                    backgroundPosition: 'center',
-                    color: '#333', 
-                    py: 20, // Increased for more prominent display
-                    borderRadius: 2 
+        <Container 
+            sx={{ 
+                minHeight: 'calc(100vh - 64px - 64px)',
+                pt: 2,
+                background: 'linear-gradient(135deg,rgb(19, 22, 1) 0%,rgb(55, 55, 67) 100%)',
+                pb: 8,
+                position: 'relative',
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '100%',
+                    backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                    zIndex: 0
+                }
+            }}
+            maxWidth="xl"
+        > 
+            {/* Added heading above carousel */}
+            <Typography 
+                variant="h4"
+                align="center"
+                sx={{
+                    color: '#ffffff',
+                    mb: 4,
+                    mt: 2,
+                    fontWeight: 600,
+                    marginTop: 10,
+                    animation: `${fadeIn} 1s ease-out`,
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                    '& span': {
+                        color: '#90caf9'
+                    }
                 }}
             >
-                <Typography variant="h3" gutterBottom>
+                {/* Marquee Slogan */}
+                <Box
+                sx={{
+                    width: '100%',
+                    overflow: 'hidden',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    padding: '8px 0',
+                    color: '#fff',
+                    position: 'relative',
+                    zIndex: 10,
+                    height: '40px', // or minHeight
+                    display: 'flex',
+                    alignItems: 'center'
+                }}
+            >
+                <Typography
+                    variant="h6"
+                    sx={{
+                        animation: `${marquee} 8s linear infinite`, // Adjust duration
+                        whiteSpace: 'nowrap',
+                        position: 'absolute',
+                        top: '28%',
+                        left: '0%', // Start at the left edge
+                        transform: 'translateY(-50%)',
+                        // No padding needed here
+                    }}
+                >
+                    Justice Without Limits, Help Without Borders.
+                </Typography>
+            </Box>
+            
+                Your <span>Legal Buddy</span>
+            </Typography>
+
+            <Box 
+                sx={{ 
+                    position: 'relative',
+                    textAlign: 'center', 
+                    mt: 5, 
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?auto=format&fit=crop&w=1500&q=80)`,
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    color: '#ffffff', 
+                    py: 25,
+                    borderRadius: 4,
+                    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                    overflow: 'hidden',
+                    animation: `${slideIn} 1.2s ease-out`,
+                    transition: 'all 0.3s ease-in-out',
+                    '&:hover': {
+                        transform: 'scale(1.005)',
+                        boxShadow: '0 8px 40px rgba(0, 0, 0, 0.2)'
+                    }
+                }}
+            >
+                <Typography 
+                    variant="h3" 
+                    gutterBottom
+                    sx={{
+                        fontWeight: 700,
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                        letterSpacing: 1.5,
+                        animation: `${fadeIn} 1.5s ease-in`,
+                        color: '#fff'
+                    }}
+                >
                     Legal Aid Platform
                 </Typography>
-                <Typography variant="h6" color="inherit" gutterBottom>
+                <Typography 
+                    variant="h6" 
+                    sx={{
+                        color: '#fff',
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                        letterSpacing: 1.2,
+                        fontWeight: 400,
+                        animation: `${fadeIn} 1.5s ease-in 0.5s`
+                    }}
+                    gutterBottom
+                >
                     Empowering Justice for All
                 </Typography>
             </Box>
 
-            {/* News Carousel with Hardcoded Images */}
-            <Box sx={{ mt: 5, mx: 'auto', width: '80%' }}> {/* Reduced width for better focus */}
+            <Box 
+                sx={{ 
+                    mt: 8,
+                    mx: 'auto', 
+                    width: '80%',
+                    position: 'relative',
+                    zIndex: 1,
+                    animation: `${fadeIn} 1.5s ease-out`,
+                    '& .MuiPaper-root': {
+                        transition: 'all 0.3s ease-in-out',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        '&:hover': {
+                            transform: 'translateY(-5px)',
+                            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)'
+                        }
+                    }
+                }}
+            >
                 <Carousel 
-                    navButtonsAlwaysVisible 
-                    autoPlay={false} 
-                    indicators={false} 
-                    NextIcon={<ArrowForwardIos />} 
-                    PrevIcon={<ArrowBackIos />}
+    navButtonsAlwaysVisible 
+    autoPlay={false} 
+    indicators={false} 
+    NextIcon={<ArrowForwardIos />} 
+    PrevIcon={<ArrowBackIos />}
+    navButtonsProps={{
+        style: {
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            borderRadius: 0,
+            padding: '20px 8px',
+            color: '#fff'
+        }
+    }}
+    sx={{
+        height: '950px', // Increased the height of the whole carousel
+        '& .MuiIconButton-root': {
+            transition: 'all 0.3s ease',
+            '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                transform: 'scale(1.1)'
+            }
+        }
+    }}
+>
+    {news.map((item, index) => (
+        <Paper 
+            key={index} 
+            sx={{ 
+                textAlign: 'center', 
+                background: 'linear-gradient(to bottom, #ffffff, #f8f9fa)',
+                borderRadius: 3,
+                overflow: 'hidden',
+                boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
+                height: '100%'  // Ensures the whole item takes full height
+            }}
+        >
+            <CardMedia
+                component="img"
+                image={item.imageUrl}
+                alt={item.title}
+                sx={{ 
+                    height: '700px',  // Keep the image height reasonable
+                    objectFit: 'cover',
+                    width: '100%',
+                    filter: 'brightness(0.95)',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                        filter: 'brightness(1.05)',
+                        transform: 'scale(1.02)'
+                    }
+                }}
+            />
+            <Box 
+                sx={{ 
+                    p: 4,
+                    background: 'linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,1))'
+                }}
+            >
+                <Typography 
+                    variant="h5" 
+                    gutterBottom
+                    sx={{
+                        fontWeight: 600,
+                        color: '#2c3e50',
+                        mb: 2,
+                        letterSpacing: 0.5,
+                        transition: 'color 0.3s ease',
+                        '&:hover': {
+                            color: '#1a237e'
+                        }
+                    }}
                 >
-                    {news.map((item, index) => (
-                        <Paper 
-                            key={index} 
-                            sx={{ 
-                                textAlign: 'center', 
-                                background: '#f5f5f5', 
-                                borderRadius: 2,
-                                overflow: 'hidden'
-                            }}
-                        >
-                            <CardMedia
-                                component="img"
-                                image={item.imageUrl}
-                                alt={item.title}
-                                sx={{ 
-                                    height: '350px',  // Reduced height for compact look
-                                    objectFit: 'fill', 
-                                    width: '100%' 
-                                }}
-                            />
-                            <Box sx={{ p: 2 }}>
-                                <Typography variant="h5" gutterBottom>
-                                    {item.title}
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary">
-                                    {item.description}
-                                </Typography>
-                            </Box>
-                        </Paper>
-                    ))}
-                </Carousel>
+                    {item.title}
+                </Typography>
+                <Typography 
+                    variant="body1" 
+                    sx={{
+                        color: '#5a6c7d',
+                        lineHeight: 1.6,
+                        fontSize: '1.1rem'
+                    }}
+                >
+                    {item.description}
+                </Typography>
+            </Box>
+        </Paper>
+    ))}
+</Carousel>
+            </Box>  
+
+ {/* About Us Section */}
+ <Box
+                sx={{
+                    mt: 10,
+                    mx: 'auto',
+                    width: '80%',
+                    display: 'flex', // Enable flexbox for alignment
+                    alignItems: 'center', // Vertically center content
+                    animation: `${fadeIn} 1.5s ease-out`,
+                    color: '#ffffff',
+                    flexDirection: { xs: 'column', md: 'row' }, // Stack on small screens, row on medium and up
+                    textAlign: { xs: 'center', md: 'left' } // Center text on small screens, left on medium and up
+                }}
+            >
+                <Box sx={{ flex: 1, pr: {md: 4}, mb: {xs: 4, md: 0} }}> {/* Text container, takes up 1 part of available space, adds right padding on medium screens and bottom margin on small screens */}
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            fontWeight: 700,
+                            mb: 4,
+                            textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                            animation: `${fadeIn} 1s ease-out`
+                        }}
+                    >
+                        About Us
+                    </Typography>
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            fontSize: '1.2rem',
+                            lineHeight: 1.8,
+                            animation: `${fadeIn} 1.5s ease-out`
+                        }}
+                    >
+                        We are dedicated to providing accessible legal aid to everyone. Our platform aims to empower individuals by providing them with the knowledge and resources they need to understand their legal rights and navigate the legal system. We believe in equal access to justice for all communities.
+                    </Typography>
+                </Box>
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}> {/* Image container, takes up 1 part of available space, centers image */}
+                    <CardMedia
+                        component="img"
+                        image="https://media.istockphoto.com/id/1317653361/vector/legal-and-law-concept-illustration.jpg?s=612x612&w=0&k=20&c=Us_-iTHz8z8aKLvxumWNalaZO-AmTtdbQZtLlBwkEbY=" // Replace with your image URL
+                        alt="About Us Image"
+                        sx={{
+                            maxWidth: '100%', // Ensure image doesn't overflow container
+                            height: 'auto', // Maintain aspect ratio
+                            borderRadius: 2, // Add some rounded corners
+                            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                            transition: 'transform 0.3s ease', // Add a transition for hover effect
+                            '&:hover': {
+                                transform: 'scale(1.05)' // Scale up slightly on hover
+                            }
+                        }}
+                    />
+                </Box>
+            </Box>
+
+            {/* Footer */}
+            <Box 
+                sx={{ 
+                    mt: 10,
+                    py: 4,
+                    backgroundColor: '#333',
+                    color: '#fff',
+                    textAlign: 'center'
+                }}
+            >
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="h6" gutterBottom>
+                            Quick Links
+                        </Typography>
+                        <Link href="#" color="inherit" underline="none">Home</Link><br />
+                        <Link href="#" color="inherit" underline="none">About Us</Link><br />
+                        <Link href="#" color="inherit" underline="none">Services</Link><br />
+                        <Link href="#" color="inherit" underline="none">Contact</Link>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="h6" gutterBottom>
+                            Legal
+                        </Typography>
+                        <Link href="#" color="inherit" underline="none">Privacy Policy</Link><br />
+                        <Link href="#" color="inherit" underline="none">Terms of Service</Link><br />
+                        <Link href="#" color="inherit" underline="none">Disclaimer</Link>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="h6" gutterBottom>
+                            Follow Us
+                        </Typography>
+                        <Link href="#" color="inherit" underline="none">Facebook</Link><br />
+                        <Link href="#" color="inherit" underline="none">Twitter</Link><br />
+                        <Link href="#" color="inherit" underline="none">LinkedIn</Link><br />
+                        <Link href="#" color="inherit" underline="none">Instagram</Link>
+                    </Grid>
+                </Grid>
+                <Typography variant="body2" sx={{ mt: 4 }}>
+                    &copy; {new Date().getFullYear()} Legal Aid Platform. All rights reserved.
+                </Typography>
             </Box>
         </Container>
     );

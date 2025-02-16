@@ -82,7 +82,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            VIDHI
           </Typography>
 
           {/* Mobile Menu */}
@@ -118,7 +118,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User Avatar" src="" />
+                <Avatar alt="User Avatar" src="https://i.pinimg.com/236x/db/c6/7a/dbc67a1d27f51a1c875cc464caaf2ef9.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

@@ -114,96 +114,115 @@ const Cases = () => {
     <div>
       <Navbar/>
       <div>
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ marginTop:10 }}>
-        {role === "client" ? "My Cases" : "Available Cases"}
-      </Typography>
+      <Container 
+  sx={{ 
+    mt: 4, 
+    background: 'linear-gradient(to bottom, #f5e1da, #e6c9a8)', // Light Brown to Peach Gradient
+    minHeight: '100vh', 
+    py: 4, 
+    borderRadius: 3 
+  }}
+>
+  <Typography 
+    variant="h4" 
+    gutterBottom 
+    sx={{ 
+      marginTop: 5, 
+      color: '#5a3e2b', // Deep brown for contrast
+      fontWeight: 'bold', 
+      textAlign: 'center'
+    }}
+  >
+    {role === "client" ? "My Cases" : "Available Cases"}
+  </Typography>
 
-      {role === "lawyer" && (
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ mb: 2, backgroundColor: "purple" }}
-          onClick={() => {
-            fetchMyCases(); // Fetch only assigned cases when opening "My Cases"
-            setOpen(true);
-          }}
-        >
-          My Cases
-        </Button>
-      )}
+  {role === "lawyer" && (
+    <Button
+      variant="contained"
+      sx={{ 
+        mb: 2, 
+        backgroundColor: "#8B5E3B", // Brown tone
+        color: "#fff", 
+        fontWeight: "bold", 
+        "&:hover": { backgroundColor: "#704832" } 
+      }}
+      onClick={() => {
+        fetchMyCases(); 
+        setOpen(true);
+      }}
+    >
+      My Cases
+    </Button>
+  )}
 
-      {role === "client" && (
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ mb: 2 }}
-          onClick={() => navigate("/create-case")}
-        >
-          + Add Case
-        </Button>
-      )}
+  {role === "client" && (
+    <Button
+      variant="contained"
+      sx={{ 
+        mb: 2, 
+        backgroundColor: "#00008B", // Warm peach shade
+        fontWeight: "bold", 
+        "&:hover": { backgroundColor: "#B86E42" } 
+      }}
+      onClick={() => navigate("/create-case")}
+    >
+      + Add Case
+    </Button>
+  )}
 
-      {loading ? (
-        <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
-      ) : cases.length > 0 ? (
-        cases.map((caseItem) => (
-          <Card key={caseItem.id} sx={{ mb: 2, p: 2, boxShadow: 3 }}>
-            <CardContent>
-              <Typography variant="h6" color="primary">{caseItem.title}</Typography>
-              <Typography variant="body1" sx={{ mb: 1 }}>{caseItem.description}</Typography>
-              <Typography variant="subtitle2" color="textSecondary">Status: {caseItem.status}</Typography>
+  {loading ? (
+    <CircularProgress sx={{ display: "block", margin: "20px auto" }} />
+  ) : cases.length > 0 ? (
+    cases.map((caseItem) => (
+      <Card 
+        key={caseItem.id} 
+        sx={{ 
+          mb: 2, 
+          p: 2, 
+          boxShadow: 4, 
+          borderRadius: 3, 
+          transition: "all 0.3s ease", 
+          backgroundColor: "white", // Keeping Cards White
+          "&:hover": { transform: "scale(1.02)", boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)" }
+        }}
+      >
+        <CardContent>
+          <Typography variant="h6" sx={{ color: "#8B5E3B", fontWeight: "bold" }}>
+            {caseItem.title}
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1, color: "#5a3e2b" }}>
+            {caseItem.description}
+          </Typography>
+          <Typography variant="subtitle2" sx={{ color: "#704832", fontStyle: "italic" }}>
+            Status: {caseItem.status}
+          </Typography>
 
-              {role === "lawyer" && caseItem.status === "pending" && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ mt: 1 }}
-                  onClick={() => acceptCase(caseItem.id)}
-                >
-                  Take Case
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        ))
-      ) : (
-        <Typography variant="h6" color="textSecondary" sx={{ mt: 2 }}>
-          No cases to be displayed.
-        </Typography>
-      )}
-
-      {/* My Cases Dialog for Lawyers */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
-        <DialogTitle>My Cases</DialogTitle>
-        <DialogContent>
-          {myCases.length > 0 ? (
-            myCases.map((caseItem) => (
-              <Card key={caseItem.id} sx={{ mb: 2, p: 2, boxShadow: 3 }}>
-                <CardContent>
-                  <Typography variant="h6" color="primary">{caseItem.title}</Typography>
-                  <Typography variant="body1" sx={{ mb: 1 }}>{caseItem.description}</Typography>
-                  <Typography variant="subtitle2" color="textSecondary">Status: {caseItem.status}</Typography>
-                  <FormControl fullWidth sx={{ mt: 2 }}>
-                    <InputLabel>Status</InputLabel>
-                    <Select
-                      value={caseItem.status}
-                      onChange={(e) => updateCaseStatus(caseItem.id, e.target.value)}
-                    >
-                      <MenuItem value="in progress">In Progress</MenuItem>
-                      <MenuItem value="completed">Completed</MenuItem>
-                      <MenuItem value="closed">Closed</MenuItem>
-                    </Select>
-                  </FormControl>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <Typography>No cases assigned yet.</Typography>
+          {role === "lawyer" && caseItem.status === "pending" && (
+            <Button
+              variant="contained"
+              sx={{ 
+                mt: 1, 
+                backgroundColor: "#A6643E", // Richer brown tone
+                "&:hover": { backgroundColor: "#8C5432" } 
+              }}
+              onClick={() => acceptCase(caseItem.id)}
+            >
+              Take Case
+            </Button>
           )}
-        </DialogContent>
-      </Dialog>
-    </Container>
+        </CardContent>
+      </Card>
+    ))
+  ) : (
+    <Typography 
+      variant="h6" 
+      color="textSecondary" 
+      sx={{ mt: 2, textAlign: "center", fontStyle: "italic" }}
+    >
+      No cases to be displayed.
+    </Typography>
+  )}
+</Container>
     </div>
     </div>
   );
