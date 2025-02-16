@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, websockets, WebSocketDisconnect,WebSocket
+from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from routes.auth import router as auth_router
 from routes.users import router as users_router
@@ -31,3 +32,21 @@ app.include_router(notification_router, tags=["Notifications"])
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Legal Aid Platform"}
+
+
+templates = Jinja2Templates(directory="templates")
+clients = []  # Store connected clients
+
+@app.websocket("/ws")
+async def chat_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    clients.append(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # Broadcast received message to all connected clients except sender
+            for client in clients:
+                if client != websocket:
+                    await client.send_text(data)
+    except WebSocketDisconnect:
+        clients.remove(websocket)

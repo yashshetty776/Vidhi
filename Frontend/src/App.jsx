@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import NewsFeed from './components/NewsFeed';
 import Nyaya from './components/Nyayadut';
 import Notification from './pages/Notification';
+import ChatApp from './pages/chat';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/news" element={<NewsFeed />} />
       <Route path="/notification" element={<Notification />} />
-      
+      <Route path="/chat" element={<ChatApp />} />
       {/* Protected Routes (With Navbar) */}
       <Route 
         path="/home" 
@@ -40,6 +41,7 @@ function App() {
               
             </>
           </ProtectedRoute>
+
         } 
       />
     </Routes>
